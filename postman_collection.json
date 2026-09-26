@@ -1,0 +1,250 @@
+{
+  "info": {
+    "name": "Admin & Manager API - Test2",
+    "description": "Complete Postman Collection for Admin and Manager Management System with JWT Authentication",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Admin Authentication",
+      "item": [
+        {
+          "name": "Step 1: Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin_user\",\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"admin123\",\n  \"confirm_password\": \"admin123\",\n  \"status\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/admin/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "admin", "register"]
+            }
+          }
+        },
+        {
+          "name": "Step 2: Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/admin/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "admin", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Manager Management (Admin Protected)",
+      "item": [
+        {
+          "name": "Step 3: Insert Manager Information",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul Sharma\",\n  \"email\": \"rahul@gmail.com\",\n  \"phone\": \"9876543210\",\n  \"salary\": \"50000\",\n  \"designation\": \"Operations Manager\",\n  \"status\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/manager/add",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "manager", "add"]
+            }
+          }
+        },
+        {
+          "name": "Step 4: Get All Managers Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/manager/all",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "manager", "all"]
+            }
+          }
+        },
+        {
+          "name": "Step 5: Delete Manager by Parameter",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/manager/delete/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "manager", "delete", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MANAGER_ID_HERE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Step 6: Update Manager using PUT",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"salary\": \"65000\",\n  \"designation\": \"Senior Operations Manager\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/manager/update/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "manager", "update", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MANAGER_ID_HERE"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Step 7: Search Managers (by name/email/phone)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/manager/search?search=Rahul",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "manager", "search"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Rahul"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Step 8: Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/manager/pagination?page=1&limit=5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "manager", "pagination"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Step 9: Multiple Delete Records",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"MANAGER_ID_1\",\n    \"MANAGER_ID_2\"\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/manager/delete-multiple",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "manager", "delete-multiple"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
